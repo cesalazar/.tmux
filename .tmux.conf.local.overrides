@@ -1,0 +1,104 @@
+# Config overrides for https://github.com/gpakosz/.tmux
+
+# options and theme changes
+tmux_conf_copy_to_os_clipboard=true
+tmux_conf_new_window_retain_current_path=true
+tmux_conf_theme_clock_colour='#00afff'                    # light blue
+tmux_conf_theme_clock_style='24'
+tmux_conf_theme_left_separator_main=''                   #        \uE0B0
+tmux_conf_theme_message_attr='none'
+tmux_conf_theme_right_separator_main=''                  #        \uE0B3
+tmux_conf_theme_status_attr='none'
+tmux_conf_theme_status_bg='#1c1c1c'                       # dark gray
+tmux_conf_theme_status_left=' ❐ #S '
+tmux_conf_theme_status_left_attr='none,none,none'
+tmux_conf_theme_status_right='#{prefix} #{pairing}  %d %b , %R | #{username}#{root} | #{hostname} '
+tmux_conf_theme_status_right_attr='none,none,none'
+tmux_conf_theme_status_right_bg='#1c1c1c,#d70000,#fafafa' # dark gray, red, white
+tmux_conf_theme_window_status_bg='#1c1c1c'                # dark gray
+tmux_conf_theme_window_status_current_attr='none'
+tmux_conf_theme_window_status_current_bg='#0a84ff'        # light blue
+tmux_conf_theme_window_status_current_fg='#fafafa'        # white-ish
+tmux_conf_theme_window_status_last_attr='none'
+tmux_conf_theme_window_status_last_fg='#fafafa'           # light blue
+
+# force Vi mode
+set -g status-keys vi
+set -g mode-keys vi
+
+set -g history-limit 50000                                # increase history size
+set -sg repeat-time 250                                   # decrease repeat timeout
+set -g mouse on                                           # enable mouse mode
+
+# unbind default window/pane navigation
+unbind C-h
+unbind C-l
+unbind Tab
+unbind Up
+unbind Down
+unbind Left
+unbind Right
+
+# pane navigation without releasing Ctrl
+bind -r C-h select-pane -L                                # focus left
+bind -r C-j select-pane -D                                # focus down
+bind -r C-k select-pane -U                                # focus up
+bind -r C-l select-pane -R                                # focus right
+
+# edit local configuration overrides
+bind e new-window -n "~/.tmux.conf.local.overrides" "EDITOR=\${EDITOR//mvim/vim} && EDITOR=\${EDITOR//gvim/vim} && \${EDITOR:-vim} ~/.tmux.conf.local.overrides && tmux source ~/.tmux.conf && tmux display \"~/.tmux.conf sourced\""
+
+bind | split-window -h                                    # split current window vertically
+bind -n M-k next-window                                   # select next window
+bind -n M-j previous-window                               # select previous window
+bind C-b last-window                                      # return to last active window
+
+bind BSpace send-keys C-q                                 # send C-q to disable Xon
+bind -n M-Enter resize-pane -Z                            # zoom pane
+bind -n M-Escape copy-mode                                # copy-mode
+
+bind < swap-window -t -1\; select-window -t -1            # swap left window
+bind > swap-window -t +1\; select-window -t +1            # swap right window
+
+bind M choose-window "swap-window -t "%%""                # swap an specific window
+bind V choose-window "join-pane -h -s "%%""               # attach window in vertical pane
+bind O choose-window "join-pane -v -s "%%""               # attach window in horizontal pane
+bind N join-pane -t :!                                    # attach last used pane
+bind B break-pane                                         # detach pane into its own window
+
+bind u set status off                                     # hide the status bar
+bind U set status on                                      # show the status bar
+
+# select window with Alt+Number
+bind -n M-1 select-window -t 1
+bind -n M-2 select-window -t 2
+bind -n M-3 select-window -t 3
+bind -n M-4 select-window -t 4
+bind -n M-5 select-window -t 5
+bind -n M-6 select-window -t 6
+bind -n M-7 select-window -t 7
+bind -n M-8 select-window -t 8
+bind -n M-9 select-window -t 9
+bind -n M-0 last-window
+
+# layout with a small pane at the bottom
+bind 0 select-layout d537,173x46,0,0[173x38,0,0,0,173x7,0,39,1]
+
+# rename the session (not the window)
+bind F2 command-prompt -p rename-session 'rename-session %%'
+
+# don't leave vi copy-mode after copying the selection
+run -b 'tmux bind -T copy-mode-vi y send -X copy-selection 2> /dev/null || true'
+run -b 'tmux bind -T copy-mode-vi Enter send -X copy-selection 2> /dev/null || true'
+
+# don't leave vi copy-mode with Escape (use q instead)
+run -b 'tmux bind -T copy-mode-vi Escape send -X clear-selection 2> /dev/null || true'
+
+# 0 moves to the first character instead of the beginning of the line
+run -b 'tmux bind -T copy-mode-vi 0 send -X back-to-indentation 2> /dev/null || true'
+
+# tmux-resurrect
+# run-shell "
+# if [[ -f ".tmux.confa"  ]]; then echo "file exists"; fi
+# run-shell ~/.tmux/tmux-resurrect/resurrect.tmux
+# set -g @resurrect-capture-pane-contents 'on'
