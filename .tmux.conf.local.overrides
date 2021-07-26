@@ -99,7 +99,8 @@ run -b 'tmux bind -T copy-mode-vi Escape send -X clear-selection 2> /dev/null ||
 run -b 'tmux bind -T copy-mode-vi 0 send -X back-to-indentation 2> /dev/null || true'
 
 # tmux-resurrect
-# run-shell "
-# if [[ -f ".tmux.confa"  ]]; then echo "file exists"; fi
-# run-shell ~/.tmux/tmux-resurrect/resurrect.tmux
-# set -g @resurrect-capture-pane-contents 'on'
+run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
+set -g @resurrect-capture-pane-contents 'on'
+set -g @resurrect-dir '~/.tmux/plugins/tmux-resurrect/resurrect'
+set -g @resurrect-restore 'R'
+set -g @resurrect-save 'S'
