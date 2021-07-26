@@ -68,6 +68,7 @@ bind B break-pane                                         # detach pane into its
 
 bind u set status off                                     # hide the status bar
 bind U set status on                                      # show the status bar
+bind -n M-u run "cut -c3- ~/.tmux.conf | sh -s _urlview #{pane_id}" # open URLs
 
 # select window with Alt+Number
 bind -n M-1 select-window -t 1
