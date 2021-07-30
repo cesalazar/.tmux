@@ -45,9 +45,6 @@ bind -r C-j select-pane -D                                # focus down
 bind -r C-k select-pane -U                                # focus up
 bind -r C-l select-pane -R                                # focus right
 
-# edit local configuration overrides
-bind e new-window -n "~/.tmux.conf.local.overrides" "EDITOR=\${EDITOR//mvim/vim} && EDITOR=\${EDITOR//gvim/vim} && \${EDITOR:-vim} ~/.tmux.conf.local.overrides && tmux source ~/.tmux.conf && tmux display \"~/.tmux.conf sourced\""
-
 bind | split-window -h                                    # split current window vertically
 bind -n M-k next-window                                   # select next window
 bind -n M-j previous-window                               # select previous window
@@ -87,6 +84,14 @@ bind 0 select-layout d537,173x46,0,0[173x38,0,0,0,173x7,0,39,1]
 
 # rename the session (not the window)
 bind F2 command-prompt -p rename-session 'rename-session %%'
+
+# edit tmux config
+bind e new-window -n "~/.tmux.conf" "\${EDITOR:-vim} ~/.tmux.conf* \
+  && tmux source ~/.tmux.conf && tmux display '~/.tmux.conf sourced'"
+
+# edit zsh related config
+bind z new-window -n "~/.zprezto" "\${EDITOR:-vim} \
+  ~/.zprezto/{runcoms/{p10k.zsh,zshrc},complements/*}"
 
 # don't leave vi copy-mode after copying the selection
 run -b 'tmux bind -T copy-mode-vi y send -X copy-selection 2> /dev/null || true'
