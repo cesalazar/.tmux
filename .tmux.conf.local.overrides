@@ -9,6 +9,9 @@ tmux_conf_theme_clock_colour='#00afff'                    # light blue
 tmux_conf_theme_clock_style='24'
 tmux_conf_theme_left_separator_main=''                   #        \uE0B0
 tmux_conf_theme_message_attr='none'
+tmux_conf_theme_mode_attr="none"
+tmux_conf_theme_mode_bg="#004388"
+tmux_conf_theme_mode_fg="#fafafa"
 tmux_conf_theme_right_separator_main=''                  #        \uE0B3
 tmux_conf_theme_status_attr='none'
 tmux_conf_theme_status_bg='#1c1c1c'                       # dark gray
@@ -31,7 +34,6 @@ set -g mode-keys vi
 set -g history-limit 50000                                # increase history size
 set -sg repeat-time 250                                   # decrease repeat timeout
 set -g mouse on                                           # enable mouse mode
-set -g detach-on-destroy no-detached                      # switch session on detach
 
 # unbind default window/pane navigation
 unbind C-h
@@ -103,6 +105,12 @@ bind z new-window -n "~/.zprezto" "\${EDITOR:-vim} \
 # don't leave vi copy-mode after copying the selection
 run -b 'tmux bind -T copy-mode-vi y send -X copy-selection 2> /dev/null || true'
 run -b 'tmux bind -T copy-mode-vi Enter send -X copy-selection 2> /dev/null || true'
+
+# space moves the cursor right instead of starting visual
+run -b 'tmux bind -T copy-mode-vi Space send -X cursor-right 2> /dev/null || true'
+
+# switch session on detach
+run -b 'tmux set -g detach-on-destroy no-detached 2> /dev/null || true'
 
 # don't leave vi copy-mode with Escape (use q instead)
 run -b 'tmux bind -T copy-mode-vi Escape send -X clear-selection 2> /dev/null || true'
