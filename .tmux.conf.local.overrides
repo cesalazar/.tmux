@@ -144,7 +144,7 @@ run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 # _fzfurlview() {
 #   tmux capture-pane -J -S - -E - -b "fzfurlview-$1" -t "$1"
 #   tmux split-window "tmux show-buffer -b fzfurlview-$1 \
-#     | grep -Eo \"(https?)://[a-zA-Z0-9./?=_%&:-]*\" \
+#     | grep -Eo \"(https?)://[a-zA-Z0-9#./?=_%&:-]*\" \
 #     | sort -u | fzf --query=\' | xargs -I% firefox --new-tab % || true; \
 #     tmux delete-buffer -b fzfurlview-$1"
 # }
