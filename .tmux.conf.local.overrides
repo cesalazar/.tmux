@@ -93,14 +93,17 @@ bind F2 command-prompt -p rename-session 'rename-session %%'
 get_functions='cut -c3- ~/.tmux.conf.local.overrides'
 bind -n M-u run "${get_functions} | sh -s _fzfurlview #{pane_id}"   # open URLs
 bind -n M-p run "${get_functions} | sh -s _fzfcopypath #{pane_id}"  # copy paths
+# git diff in a panel
+bind -n M-d run "${get_functions} | sh -s _gitdiffwin #{pane_current_path} cached"
+bind -n M-D run "${get_functions} | sh -s _gitdiffwin #{pane_current_path}"
 
 # edit tmux config
-bind e new-window -n "~/.tmux.conf" "\${EDITOR:-vim} ~/.tmux.conf* \
+bind e new-window -n "~/.tmux.conf" "cd ~/.tmux && \${EDITOR:-vim} ~/.tmux.conf* \
   && tmux source ~/.tmux.conf && tmux display '~/.tmux.conf sourced'"
 
 # edit zsh related config
-bind z new-window -n "~/.zprezto" "\${EDITOR:-vim} \
-  ~/.zprezto/{runcoms/{p10k.zsh,zshrc},complements/*}"
+bind z new-window -n "~/.zprezto" "cd ~/.zprezto && \${EDITOR:-vim} \
+  ~/.zprezto/{runcoms/{p10k.zsh,zshrc},complements/*(.)}"
 
 # don't leave vi copy-mode after copying the selection
 run -b 'tmux bind -T copy-mode-vi y send -X copy-selection 2> /dev/null || true'
@@ -147,6 +150,14 @@ run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 #     | grep -Eo \"(https?)://[a-zA-Z0-9#./?=_%&:-]*\" \
 #     | sort -u | fzf --query=\' | xargs -I% firefox --new-tab % || true; \
 #     tmux delete-buffer -b fzfurlview-$1"
+# }
+#
+# # show git diff in a window
+# _gitdiffwin() {
+#   cd "$1" || return
+#   [ ! -d .git ] && tmux display-message "not a git repository" && return
+#   [ $2 ] && opt='--cached'
+#   tmux split-window -h "git --no-pager diff $opt | diff-so-fancy | less -RXS"
 # }
 #
 # "$@"
