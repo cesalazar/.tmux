@@ -155,9 +155,11 @@ run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 # # show git diff in a window
 # _gitdiffwin() {
 #   cd "$1" || return
-#   [ ! -d .git ] && tmux display-message "not a git repository" && return
+#   not_a_repo=$(git rev-parse --git-dir &> /dev/null || echo true)
+#   [ $not_a_repo ] && tmux display-message "not a git repository" && return
 #   [ $2 ] && opt='--cached'
-#   tmux split-window -h "git --no-pager diff $opt | diff-so-fancy | less -RXS"
+#   tmux split-window -h \
+#     "git --no-pager diff $opt | diff-so-fancy | LESS='-RSX' less"
 # }
 #
 # "$@"
