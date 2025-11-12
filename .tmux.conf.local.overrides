@@ -132,6 +132,14 @@ set -g @resurrect-restore 'R'
 set -g @resurrect-save 'S'
 run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 
+# neovim suggestion to enable truecolors, disabled because I prefer cterm
+# see: https://www.elliottchenstudio.com/blog/neovim-true-color
+# set-option -sa terminal-features ',tmux-256color:RGB'
+
+# both settings needed to override the default colors
+set -g default-terminal "xterm-256color"
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+
 # EOF
 #
 # # exit the script if any statement returns a non-true return value
@@ -162,6 +170,7 @@ run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 #   not_a_repo=$(git rev-parse --git-dir &> /dev/null || echo true)
 #   [ $not_a_repo ] && tmux display-message "not a git repository" && return
 #   [ $2 ] && opt='--cached'
+#   # Too difficult to read using `delta` because of the two columns
 #   tmux split-window -h \
 #     "git --no-pager diff $opt | diff-so-fancy | LESS='-RSX' less"
 # }
