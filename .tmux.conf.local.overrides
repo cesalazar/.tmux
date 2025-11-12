@@ -54,6 +54,7 @@ bind | split-window -h                                    # split current window
 bind -n M-k next-window                                   # select next window
 bind -n M-j previous-window                               # select previous window
 bind C-b last-window                                      # return to last active window
+bind -n M-` last-window                                   # return to last active window
 
 bind BSpace send-keys C-q                                 # send C-q to disable Xon
 bind -n M-Enter resize-pane -Z                            # zoom pane
@@ -68,8 +69,7 @@ bind O choose-window "join-pane -v -s "%%""               # attach window in hor
 bind N join-pane -t :!                                    # attach last used pane
 bind B break-pane                                         # detach pane into its own window
 
-bind u set status off                                     # hide the status bar
-bind U set status on                                      # show the status bar
+bind u set status                                         # toggle the status bar
 
 # select window with Alt+Number
 bind -n M-1 select-window -t 1
@@ -89,6 +89,10 @@ bind 0 select-layout d537,173x46,0,0[173x38,0,0,0,173x7,0,39,1]
 # rename the session (not the window)
 bind F2 command-prompt -p rename-session 'rename-session %%'
 
+# sync panes
+bind Y set-window-option synchronize-panes\; \
+  display-message "synchronize-panes #{?pane_synchronized,on,off}"
+
 # custom functions
 get_functions='cut -c3- ~/.tmux.conf.local.overrides'
 bind -n M-u run "${get_functions} | sh -s _fzfurlview #{pane_id}"   # open URLs
@@ -98,11 +102,11 @@ bind -n M-d run "${get_functions} | sh -s _gitdiffwin #{pane_current_path} cache
 bind -n M-D run "${get_functions} | sh -s _gitdiffwin #{pane_current_path}"
 
 # edit tmux config
-bind e new-window -n "~/.tmux.conf" "cd ~/.tmux && \${EDITOR:-vim} ~/.tmux.conf* \
+bind e new-window -n "~/.tmux.conf" "cd ~/.tmux && \${EDITOR} ~/.tmux.conf* \
   && tmux source ~/.tmux.conf && tmux display '~/.tmux.conf sourced'"
 
 # edit zsh related config
-bind z new-window -n "~/.zprezto" "cd ~/.zprezto && \${EDITOR:-vim} \
+bind z new-window -n "~/.zprezto" "cd ~/.zprezto && ${EDITOR} \
   ~/.zprezto/{runcoms/{p10k.zsh,zshrc},complements/*(.)}"
 
 # don't leave vi copy-mode after copying the selection
@@ -127,6 +131,14 @@ set -g @resurrect-dir '~/.tmux/plugins/tmux-resurrect/resurrect'
 set -g @resurrect-restore 'R'
 set -g @resurrect-save 'S'
 run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
+
+# neovim suggestion to enable truecolors, disabled because I prefer cterm
+# see: https://www.elliottchenstudio.com/blog/neovim-true-color
+# set-option -sa terminal-features ',tmux-256color:RGB'
+
+# both settings needed to override the default colors
+set -g default-terminal "xterm-256color"
+set-option -ga terminal-overrides ",xterm-256color:Tc"
 
 # EOF
 #
@@ -158,6 +170,7 @@ run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 #   not_a_repo=$(git rev-parse --git-dir &> /dev/null || echo true)
 #   [ $not_a_repo ] && tmux display-message "not a git repository" && return
 #   [ $2 ] && opt='--cached'
+#   # Too difficult to read using `delta` because of the two columns
 #   tmux split-window -h \
 #     "git --no-pager diff $opt | diff-so-fancy | LESS='-RSX' less"
 # }
