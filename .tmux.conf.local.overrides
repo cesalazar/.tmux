@@ -102,11 +102,11 @@ bind -n M-d run "${get_functions} | sh -s _gitdiffwin #{pane_current_path} cache
 bind -n M-D run "${get_functions} | sh -s _gitdiffwin #{pane_current_path}"
 
 # edit tmux config
-bind e new-window -n "~/.tmux.conf" "cd ~/.tmux && \${EDITOR:-vim} ~/.tmux.conf* \
+bind e new-window -n "~/.tmux.conf" "cd ~/.tmux && \${EDITOR} ~/.tmux.conf* \
   && tmux source ~/.tmux.conf && tmux display '~/.tmux.conf sourced'"
 
 # edit zsh related config
-bind z new-window -n "~/.zprezto" "cd ~/.zprezto && \${EDITOR:-vim} \
+bind z new-window -n "~/.zprezto" "cd ~/.zprezto && ${EDITOR} \
   ~/.zprezto/{runcoms/{p10k.zsh,zshrc},complements/*(.)}"
 
 # don't leave vi copy-mode after copying the selection
