@@ -69,8 +69,7 @@ bind O choose-window "join-pane -v -s "%%""               # attach window in hor
 bind N join-pane -t :!                                    # attach last used pane
 bind B break-pane                                         # detach pane into its own window
 
-bind u set status off                                     # hide the status bar
-bind U set status on                                      # show the status bar
+bind u set status                                         # toggle the status bar
 
 # select window with Alt+Number
 bind -n M-1 select-window -t 1
