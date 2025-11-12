@@ -89,6 +89,10 @@ bind 0 select-layout d537,173x46,0,0[173x38,0,0,0,173x7,0,39,1]
 # rename the session (not the window)
 bind F2 command-prompt -p rename-session 'rename-session %%'
 
+# sync panes
+bind Y set-window-option synchronize-panes\; \
+  display-message "synchronize-panes #{?pane_synchronized,on,off}"
+
 # custom functions
 get_functions='cut -c3- ~/.tmux.conf.local.overrides'
 bind -n M-u run "${get_functions} | sh -s _fzfurlview #{pane_id}"   # open URLs
