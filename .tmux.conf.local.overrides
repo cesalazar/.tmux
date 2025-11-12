@@ -54,6 +54,7 @@ bind | split-window -h                                    # split current window
 bind -n M-k next-window                                   # select next window
 bind -n M-j previous-window                               # select previous window
 bind C-b last-window                                      # return to last active window
+bind -n M-` last-window                                   # return to last active window
 
 bind BSpace send-keys C-q                                 # send C-q to disable Xon
 bind -n M-Enter resize-pane -Z                            # zoom pane
