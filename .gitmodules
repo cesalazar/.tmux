@@ -1,3 +1,6 @@
 [submodule "plugins/tmux-resurrect"]
   path = plugins/tmux-resurrect
   url = git@github.com:tmux-plugins/tmux-resurrect.git
+[submodule "plugins/tmux-easymotion"]
+	path = plugins/tmux-easymotion
+	url = git@github.com:ddzero2c/tmux-easymotion.git

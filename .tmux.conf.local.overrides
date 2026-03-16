@@ -132,6 +132,11 @@ set -g @resurrect-restore 'R'
 set -g @resurrect-save 'S'
 run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 
+# tmux-easymotion
+set -g @easymotion-s 'A'
+set -g @easymotion-s2 'a'
+run-shell '~/.tmux/plugins/tmux-easymotion/easymotion.tmux'
+
 # neovim suggestion to enable truecolors, disabled because I prefer cterm
 # see: https://www.elliottchenstudio.com/blog/neovim-true-color
 # set-option -sa terminal-features ',tmux-256color:RGB'
