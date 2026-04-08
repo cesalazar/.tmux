@@ -106,7 +106,7 @@ bind e new-window -n "~/.tmux.conf" "cd ~/.tmux && \${EDITOR} ~/.tmux.conf* \
   && tmux source ~/.tmux.conf && tmux display '~/.tmux.conf sourced'"
 
 # edit zsh related config
-bind z new-window -n "~/.zprezto" "cd ~/.zprezto && ${EDITOR} \
+bind z new-window -n "~/.zprezto" "cd ~/.zprezto && \${EDITOR} \
   ~/.zprezto/{runcoms/{p10k.zsh,zshrc},complements/*(.)}"
 
 # don't leave vi copy-mode after copying the selection
@@ -156,7 +156,7 @@ set-option -ga terminal-overrides ",xterm-256color:Tc"
 # _fzfcopypath() {
 #   tmux capture-pane -J -S - -E - -b "fzfcopypath-$1" -t "$1"
 #   tmux split-window "tmux show-buffer -b fzfcopypath-$1 | path-extractor \
-#    | grep -Ev '^([a-zAjZ0-9])' | sort -u | fzf | xsel -ib || true; \
+#    | grep -Ev '^([a-zA-Z0-9])' | sort -u | fzf | xsel -ib || true; \
 #    tmux delete-buffer -b fzfcopypath-$1"
 # }
 #
