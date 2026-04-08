@@ -135,7 +135,9 @@ run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 # tmux-easymotion
 set -g @easymotion-s 'A'
 set -g @easymotion-s2 'a'
-run-shell '~/.tmux/plugins/tmux-easymotion/easymotion.tmux'
+# prevent throwing errors when reloading the config
+if-shell '[ "$(tmux show-option -gqv @easymotion-loaded)" != "1" ]' \
+  'set -g @easymotion-loaded 1 ; run-shell "~/.tmux/plugins/tmux-easymotion/easymotion.tmux"'
 
 # neovim suggestion to enable truecolors, disabled because I prefer cterm
 # see: https://www.elliottchenstudio.com/blog/neovim-true-color
