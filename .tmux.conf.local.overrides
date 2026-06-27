@@ -135,9 +135,14 @@ run-shell '~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 # tmux-easymotion
 set -g @easymotion-s 'A'
 set -g @easymotion-s2 'a'
-# prevent throwing errors when reloading the config
-if-shell '[ "$(tmux show-option -gqv @easymotion-loaded)" != "1" ]' \
-  'set -g @easymotion-loaded 1 ; run-shell "~/.tmux/plugins/tmux-easymotion/easymotion.tmux"'
+set -g @easymotion-copy-mode-no-prefix 'false'
+# Custom colors (standard SGR codes: "1" bold, "4" underline,
+# "31"-"37" / "90"-"97" basic colors, "38;5;N" for 256-color)
+# Bg: SGR: 40-47 basic, 100-107 bright, 48;5;N 256-color, 48;2;r;g;b truecolor
+set -g @easymotion-hint1-fg '1;38;5;196;48;5;16'
+set -g @easymotion-hint2-fg '1;38;5;196'
+set -g @easymotion-dim '38;5;240'
+run-shell "~/.tmux/plugins/tmux-easymotion/easymotion.tmux"
 
 # neovim suggestion to enable truecolors, disabled because I prefer cterm
 # see: https://www.elliottchenstudio.com/blog/neovim-true-color
