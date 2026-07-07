@@ -79,6 +79,10 @@ bind B break-pane                                         # detach pane into its
 
 bind u set status                                         # toggle the status bar
 
+# enter copy-mode and search right away
+bind / copy-mode \; send-keys /
+bind ? copy-mode \; send-keys ?
+
 # select window with Alt+Number
 bind -n M-1 select-window -t 1
 bind -n M-2 select-window -t 2
