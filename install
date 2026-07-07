@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Create symlinks in the $HOME to use the tmux configuration in this repository
+
+# Debug options
+# set -euxo pipefail
+
+# Directory of the repository where this script resides
+base_dir=$(cd "$(dirname "${0}")" &>/dev/null || exit 1; pwd -P)
+
+# Directory where the files will be symlinked
+target_dir=${HOME}
+
+# Flag for when there are existing config files
+has_existing_conf=false
+
+# Create a symlink for each config file
+for file in "${base_dir}"/.tmux.conf*; do
+    # Create the symlink or flag a problem with existing files
+    ln -s "${file}" "${target_dir}" || has_existing_conf=true
+done
+
+# Print instructions to solve the problem
+if [[ ${has_existing_conf} = true ]];
+then
+    printf "%b\n" """
+    \033[0;31mSome symlinks could not be created\033[0m
+    Delete all the .tmux.conf* files in $HOME/ and try again
+    """ | sed 's~^\s\+~~'
+    exit 1
+fi
+
+# Success!
+printf "%b\n" "\n\033[0;32mtmux config installed\033[0m" \
+    "Restart tmux or source ~/.tmux.conf"
+
+exit 0
+
+# vim: fdm=manual tabstop=4 softtabstop=4 shiftwidth=4 expandtab:

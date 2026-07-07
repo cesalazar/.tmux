@@ -1,0 +1,13 @@
+diff --git a/easymotion.py b/easymotion.py
+index f60bd73..5b3fe2e 100755
+--- a/easymotion.py
++++ b/easymotion.py
+@@ -746,7 +746,7 @@ def draw_all_panes(
+         # absolute stops and shift content in non-aligned split panes.
+         for y, line in enumerate(pane.lines[:visible_height]):
+             sliced = visual_slice(_expand_tabs(line), pane.width)
+-            screen.addstr(pane.start_y + y, pane.start_x, sliced)
++            screen.addstr(pane.start_y + y, pane.start_x, sliced, screen.A_DIM)
+ 
+         # Draw vertical borders
+         if pane.start_x + pane.width < max_x:
